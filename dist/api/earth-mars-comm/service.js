@@ -80,10 +80,8 @@ function action(sender, receiver, message) {
         }
         else {
             const numericParts = message.split(" ");
-            console.log("numericParts : ", numericParts);
             let translatedMessage = "";
             for (const part of numericParts) {
-                console.log("Part : ", part);
                 for (let dials in nokiaKeypad) {
                     if (part.includes(nokiaKeypad[dials])) {
                         translatedMessage += dials;
@@ -91,13 +89,6 @@ function action(sender, receiver, message) {
                 }
                 translatedMessage += " ";
             }
-            //   const numericParts = message.split(" ");
-            //   let translatedMessage = "";
-            //   console.log("numericParts : ", numericParts);
-            //   for (const part of numericParts) {
-            //     console.log("parseInt(part) : ", part);
-            //     translatedMessage += nokiaKeypad[part];
-            //   }
             eventEmitter.emit("marsMessage", translatedMessage, message);
         }
     });

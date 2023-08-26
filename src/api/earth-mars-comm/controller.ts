@@ -1,5 +1,4 @@
 const router = require("express").Router();
-import { knex } from "../../database/knex";
 import { req_header_manager } from "../../middlewares/req_headers_manager";
 
 import { service } from "./service";
@@ -12,12 +11,5 @@ router.post("/message", async (req: any, res: any) => {
   } catch (error) {
     throw error;
   }
-});
-router.get("/", async (req: any, res: any) => {
-  const result = await knex("app_log").select("*");
-  res.send({
-    Data: result,
-    message: "I am at my destination",
-  });
 });
 module.exports = router;

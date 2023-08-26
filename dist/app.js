@@ -18,9 +18,6 @@ const port = process.env.PORT || 3000;
 app.use(request_time_middleware_1.requestTimingMiddleware);
 app.use("/api", require("./api"));
 app.use(error_handler_1.errror_handler);
-app.get("/", (req, res) => {
-    res.send("Hello, Express with TypeScript!");
-});
 app.listen(port, () => {
     try {
         console.log(`[ Server is running on port ${port} ]`);

@@ -13,15 +13,21 @@ exports.requestTimingMiddleware = void 0;
 const knex_1 = require("../database/knex");
 function requestTimingMiddleware(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const start = Date.now();
-        res.on("finish", () => __awaiter(this, void 0, void 0, function* () {
-            const duration = Date.now() - start;
-            console.log(`Request to ${req.method} ${req.path} took ${duration}ms`);
-            const result = yield (0, knex_1.knex)("app_log").insert({
-                process_time: duration,
-            });
-        }));
-        next();
+        try {
+            const start = Date.now();
+            res.on("finish", () => __awaiter(this, void 0, void 0, function* () {
+                const duration = Date.now() - start;
+                console.log(`Request to ${req.method} ${req.path} took ${duration}ms`);
+                const result = yield (0, knex_1.knex)("ss").insert({
+                    process_time: duration,
+                });
+            }));
+            next();
+        }
+        catch (error) {
+            console.log("$$$$$$$$$$$$$$$$$$$$$4 : ", error);
+            throw error;
+        }
     });
 }
 exports.requestTimingMiddleware = requestTimingMiddleware;
