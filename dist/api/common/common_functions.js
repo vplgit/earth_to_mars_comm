@@ -12,17 +12,5 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.common_functions = void 0;
 exports.common_functions = {
     responseTranslator: (data) => __awaiter(void 0, void 0, void 0, function* () {
-        if (data.sender == "earth" && data.receiver == "mars") {
-            return {
-                "Response from Earth": data.message,
-                "Nokia Translation": data.result,
-            };
-        }
-        else {
-            return {
-                "Response from Mars": data.message,
-                "Nokia Translation": data.result,
-            };
-        }
     }),
 };

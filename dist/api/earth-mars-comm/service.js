@@ -10,7 +10,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.service = void 0;
-const common_functions_1 = require("../common/common_functions");
 const EventEmitter = require("events");
 const eventEmitter = new EventEmitter();
 function service(req) {
@@ -19,12 +18,7 @@ function service(req) {
         let receiver = req.header("x-receiver");
         let message = req.body.message;
         const result = action(sender, receiver, message);
-        return common_functions_1.common_functions.responseTranslator({
-            result,
-            sender,
-            receiver,
-            message,
-        });
+        return result;
     });
 }
 exports.service = service;
@@ -70,12 +64,11 @@ function action(sender, receiver, message) {
     // Subscriber: Translator
     eventEmitter.on("translatorMessage", (message) => {
         if (sender == "earth" && receiver == "mars") {
-            let translatedMessage = "";
-            for (const char of message) {
-                if (char.toLowerCase() in nokiaKeypad) {
-                    translatedMessage += nokiaKeypad[char.toLowerCase()];
-                }
-            }
+            let translatedMessage = message
+                .split("")
+                .reduce((accumulator, currentValue) => {
+                return (accumulator + nokiaKeypad[currentValue.toString().toLowerCase()]);
+            }, "");
             eventEmitter.emit("earthMessage", translatedMessage, message);
         }
         else {

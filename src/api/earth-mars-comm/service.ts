@@ -1,5 +1,3 @@
-import { common_functions } from "../common/common_functions";
-
 const EventEmitter = require("events");
 const eventEmitter = new EventEmitter();
 export async function service(req: any) {
@@ -8,12 +6,7 @@ export async function service(req: any) {
   let message = req.body.message;
   const result = action(sender, receiver, message);
 
-  return common_functions.responseTranslator({
-    result,
-    sender,
-    receiver,
-    message,
-  });
+  return result;
 }
 
 function action(sender: any, receiver: any, message: string) {
@@ -61,16 +54,19 @@ function action(sender: any, receiver: any, message: string) {
   // Subscriber: Translator
   eventEmitter.on("translatorMessage", (message: any) => {
     if (sender == "earth" && receiver == "mars") {
-      let translatedMessage = "";
-      for (const char of message) {
-        if (char.toLowerCase() in nokiaKeypad) {
-          translatedMessage += nokiaKeypad[char.toLowerCase()];
-        }
-      }
+      let translatedMessage = message
+        .split("")
+        .reduce((accumulator: any, currentValue: any) => {
+          return (
+            accumulator + nokiaKeypad[currentValue.toString().toLowerCase()]
+          );
+        }, "");
+
       eventEmitter.emit("earthMessage", translatedMessage, message);
     } else {
       const numericParts = message.split(" ");
       let translatedMessage = "";
+
       for (const part of numericParts) {
         for (let dials in nokiaKeypad) {
           if (part.includes(nokiaKeypad[dials])) {

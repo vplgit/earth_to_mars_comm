@@ -18,8 +18,10 @@ function migrationScript() {
             if (!is_table_exists) {
                 yield knex_1.knex.schema.createTable("app_log", (table) => {
                     table.increments();
+                    table.string("request_method");
+                    table.string("request_path");
                     table.string("process_time");
-                    table.timestamp(true, true);
+                    table.timestamps(true, true);
                 });
             }
         }

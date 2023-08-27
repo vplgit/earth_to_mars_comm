@@ -6,8 +6,10 @@ export async function migrationScript() {
     if (!is_table_exists) {
       await knex.schema.createTable("app_log", (table: any) => {
         table.increments();
+        table.string("request_method");
+        table.string("request_path");
         table.string("process_time");
-        table.timestamp(true, true);
+        table.timestamps(true, true);
       });
     }
   } catch (error) {

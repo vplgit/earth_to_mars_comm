@@ -20,6 +20,8 @@ function requestTimingMiddleware(req, res, next) {
                 console.log(`Request to ${req.method} ${req.path} took ${duration}ms`);
                 yield (0, knex_1.knex)("app_log").insert({
                     process_time: duration,
+                    request_path: req.path,
+                    request_method: req.method,
                 });
             }));
             next();
